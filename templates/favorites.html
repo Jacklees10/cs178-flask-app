@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Favorites</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5">Favorite Countries</h2>
+        <table class="table table-bordered table-striped mt-3">
+            <thead class="thead-dark">
+                <tr><th>Country Name</th></tr>
+            </thead>
+            <tbody>
+                {% for item in favorites %}
+                <tr><td>{{ item['CountryName'] }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/add-favorite" class="btn btn-primary">Add Favorite</a>
+        <a href="/delete-favorite" class="btn btn-danger">Remove Favorite</a>
+    </div>
+</body>
+</html>

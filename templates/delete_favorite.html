@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+  <head><title>Remove Favorite</title></head>
+  <body>
+    <h1>Remove from Favorites</h1>
+    <form action="{{ url_for('delete_favorite_route') }}" method="post">
+      <label for="name">Country Name:</label><br />
+      <input type="text" id="name" name="name" required /><br />
+      <input type="submit" value="Remove from Favorites" />
+    </form>
+  </body>
+</html>
