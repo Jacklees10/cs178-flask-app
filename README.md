@@ -113,35 +113,41 @@ The "world" database's main table is Country, with columns Code(PK), Name, Conti
 - `[Language]` — stores the names, status, and percentage of people who speak certain languages for different regions; foreign key links to the country code in the `[Country]` table
 
 The JOIN query used in this project: 
+
 I joined the City table to the Country table on Country's Capital column and City's ID column.
 
 ### DynamoDB
 
 <!-- Describe your DynamoDB table. What is the partition key? What attributes does each item have? How does it connect to the rest of the app? -->
+I created a DynamoDB table called "Favorites" that stores any favorite countries users want to add to the database. The partition key is CountryName, and it has attributes Population and Primary Language. It connects to the rest of the app because it allows the user to add language
 
-- **Table name:** `[your-table-name]`
-- **Partition key:** `[key-name]`
-- **Used for:** [description]
+- **Table name:** `[Favorites]`
+- **Partition key:** `[CountryName]`
+- **Used for:** `[Adding favorite countries including their primary language]`
 
 ---
 
 ## CRUD Operations
 
-| Operation | Route      | Description    |
-| --------- | ---------- | -------------- |
-| Create    | `/[route]` | [what it does] |
-| Read      | `/[route]` | [what it does] |
-| Update    | `/[route]` | [what it does] |
-| Delete    | `/[route]` | [what it does] |
+| Operation | Route               | Description                     |
+| --------- | ------------------- | ------------------------------- |
+| Create    | `/[Add Country]`    | Adds a country to the list      |
+| Read      | `/[Delete Country]` | Deletes a country from the list |
+| Update    | `/[Update Country]` | Updates a country on the list   |
+| Delete    | `/[Delete Country]` | Deletes a country from the list |
 
 ---
 
 ## Challenges and Insights
 
-<!-- What was the hardest part? What did you learn? Any interesting design decisions? -->
+The hardest part about this project was getting the website to actually run. I got connection error after programming error after connection error, and I fixed it by changing the creds file so it was pointing to the right dataset with the right user. 
+
+I learned so much about html in this project, so much so that now I can confidently say I understand how html goes from my VSCode environment to my running flaskapp website. 
+
+I also learned that it is very important to commit and push changes to GitHub frequently in order to track progress. 
 
 ---
 
 ## AI Assistance
 
-<!-- List any AI tools you used (e.g., ChatGPT) and briefly describe what you used them for. Per course policy, AI use is allowed but must be cited in code comments and noted here. -->
+I used mainly Claude and a little bit of ChatGPT to help me write code for the flaskapp.py, dbCode.py, and all html files. I also relied heavily on Claude to troubleshoot any issues that came up.
