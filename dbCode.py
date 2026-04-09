@@ -15,6 +15,7 @@ def get_conn():
             user=creds.user,
             password=creds.password,
             db=creds.db,
+            port = 3306
         )
         return conn
     except pymysql.Error as e:
