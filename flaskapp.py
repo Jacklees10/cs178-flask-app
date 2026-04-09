@@ -106,6 +106,19 @@ def delete_favorite_route():
         return redirect(url_for('favorites'))
     else:
         return render_template('delete_favorite.html')
+    
+@app.route('/countries-with-capitals')
+def countries_with_capitals():
+    rows = execute_query("""
+        SELECT country.Name, city.Name AS CapitalCity
+        FROM country
+        JOIN city ON country.Capital = city.ID
+        ORDER BY country.Population DESC
+    """)
+    return render_template('countries_capitals.html', users=[
+        (r['Name'], r['CapitalCity'])
+        for r in rows
+    ])
 
 # these two lines of code should always be the last in the file
 if __name__ == '__main__':
