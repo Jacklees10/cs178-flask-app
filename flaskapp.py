@@ -82,6 +82,31 @@ def countries_with_capitals():
         for r in rows
     ])
 
+@app.route('/favorites')
+def favorites():
+    items = get_favorites()
+    return render_template('favorites.html', favorites=items)
+
+@app.route('/add-favorite', methods=['GET', 'POST'])
+def add_favorite_route():
+    if request.method == 'POST':
+        country_name = request.form['name']
+        add_favorite(country_name)
+        flash('Country added to favorites!', 'success')
+        return redirect(url_for('favorites'))
+    else:
+        return render_template('add_favorite.html')
+
+@app.route('/delete-favorite', methods=['GET', 'POST'])
+def delete_favorite_route():
+    if request.method == 'POST':
+        country_name = request.form['name']
+        delete_favorite(country_name)
+        flash('Country removed from favorites!', 'warning')
+        return redirect(url_for('favorites'))
+    else:
+        return render_template('delete_favorite.html')
+
 # these two lines of code should always be the last in the file
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)

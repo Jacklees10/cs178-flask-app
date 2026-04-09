@@ -4,6 +4,7 @@
 
 import pymysql
 import creds
+import boto3
 
 def get_conn():
     """Returns a connection to the MySQL RDS instance."""
@@ -31,3 +32,23 @@ def execute_update(query, args=()):
     conn.commit()
     cur.close()
     conn.close()
+
+def get_dynamodb():
+    dynamodb = boto3.resource(
+        'dynamodb',
+        region_name='us-east-1'
+    )
+    return dynamodb.Table('Favorites')
+
+def add_favorite(country_name):
+    table = get_dynamodb()
+    table.put_item(Item={'CountryName': country_name})
+
+def get_favorites():
+    table = get_dynamodb()
+    response = table.scan()
+    return response['Items']
+
+def delete_favorite(country_name):
+    table = get_dynamodb()
+    table.delete_item(Key={'CountryName': country_name})
