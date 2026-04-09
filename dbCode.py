@@ -1,5 +1,5 @@
 # dbCode.py
-# Author: Your Name
+# Author: Ben Jackels
 # Helper functions for database connection and queries
 
 import pymysql
@@ -22,3 +22,12 @@ def execute_query(query, args=()):
     rows = cur.fetchall()
     cur.close()
     return rows
+
+def execute_update(query, args=()):
+    """Executes INSERT, UPDATE, or DELETE queries."""
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute(query, args)
+    conn.commit()
+    cur.close()
+    conn.close()

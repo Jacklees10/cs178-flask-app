@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Add Country</title>
+  </head>
+  <body>
+    <h1>Add Country</h1>
+    <form action="{{ url_for('add_country') }}" method="post">
+      <label for="name">Country Name:</label><br />
+      <input type="text" id="name" name="name" required /><br />
+      <label for="continent">Continent:</label><br />
+      <input type="text" id="continent" name="continent" required /><br />
+      <label for="population">Population:</label><br />
+      <input type="number" id="population" name="population" required /><br />
+      <input type="submit" value="Add Country" />
+    </form>
+  </body>
+</html>

@@ -15,49 +15,72 @@ app.secret_key = 'your_secret_key' # this is an artifact for using flash display
 def home():
     return render_template('home.html')
 
-@app.route('/add-user', methods=['GET', 'POST'])
-def add_user():
+@app.route('/add-country', methods=['GET', 'POST'])
+def add_country():
     if request.method == 'POST':
-        # Extract form data
         name = request.form['name']
-        genre = request.form['genre']
-        
-        # Process the data (e.g., add it to a database)
-        # For now, let's just print it to the console
-        print("Name:", name, ":", "Favorite Genre:", genre)
-        
-        flash('User added successfully! Huzzah!', 'success')  # 'success' is a category; makes a green banner at the top
-        # Redirect to home page or another page upon successful submission
+        continent = request.form['continent']
+        population = request.form['population']
+        execute_update("""
+            INSERT INTO country (Name, Continent, Population)
+            VALUES (%s, %s, %s)
+        """, (name, continent, population))
+        flash('Country added successfully!', 'success')
         return redirect(url_for('home'))
     else:
-        # Render the form page if the request method is GET
-        return render_template('add_user.html')
+        return render_template('add_country.html')
 
-@app.route('/delete-user',methods=['GET', 'POST'])
-def delete_user():
+@app.route('/delete-country', methods=['GET', 'POST'])
+def delete_country():
     if request.method == 'POST':
-        # Extract form data
         name = request.form['name']
-        
-        # Process the data (e.g., add it to a database)
-        # For now, let's just print it to the console
-        print("Name to delete:", name)
-        
-        flash('User deleted successfully! Hoorah!', 'warning') 
-        # Redirect to home page or another page upon successful submission
+        execute_update("DELETE FROM country WHERE Name = %s", (name,))
+        flash('Country deleted successfully!', 'warning')
         return redirect(url_for('home'))
     else:
-        # Render the form page if the request method is GET
-        return render_template('delete_user.html')
+        return render_template('delete_country.html')
+    
+@app.route('/update-country', methods=['GET', 'POST'])
+def update_country():
+    if request.method == 'POST':
+        name = request.form['name']
+        population = request.form['population']
+        lifeexpectancy = request.form['lifeexpectancy']
+        execute_update("""
+            UPDATE country
+            SET Population = %s, LifeExpectancy = %s
+            WHERE Name = %s
+        """, (population, lifeexpectancy, name))
+        flash('Country updated successfully!', 'success')
+        return redirect(url_for('home'))
+    else:
+        return render_template('update_country.html')
 
 
-@app.route('/display-users')
-def display_users():
-    # hard code a value to the users_list;
-    # note that this could have been a result from an SQL query :) 
-    users_list = (('John','Doe','Comedy'),('Jane', 'Doe','Drama'))
-    return render_template('display_users.html', users = users_list)
+@app.route('/display-countries')
+def display_countries():
+    rows = execute_query("""
+        SELECT name, continent, population, lifeexpectancy
+        FROM country
+        ORDER BY population DESC
+    """)
+    return render_template('display_countries.html', users=[
+        (r['name'], r['continent'], r['population'], r['lifeexpectancy'])
+        for r in rows
+    ])
 
+@app.route('/countries-with-capitals')
+def countries_with_capitals():
+    rows = execute_query("""
+        SELECT country.Name, country.Continent, country.Population, city.Name AS CapitalCity
+        FROM country
+        JOIN city ON country.Capital = city.ID
+        ORDER BY country.Population DESC
+    """)
+    return render_template('display_countries.html', users=[
+        (r['Name'], r['Continent'], r['Population'], r['CapitalCity'])
+        for r in rows
+    ])
 
 # these two lines of code should always be the last in the file
 if __name__ == '__main__':
