@@ -1,4 +1,4 @@
-# [Your Project Name Here]
+# Ben's World Website
 
 **CS178: Cloud and Database Systems — Project #1**
 **Author:** Ben Jackels
@@ -8,7 +8,7 @@
 
 ## Overview
 
-<!-- Describe your project in 2-4 sentences. What does it do? Who is it for? What problem does it solve? -->
+My project is a fully-functional website based on the world database. It features all CRUD operations, uses a SQL JOIN to join capitals to countries, and a favorites tab using DynamoDB.
 
 ---
 
@@ -28,10 +28,19 @@
 ProjectOne/
 ├── flaskapp.py          # Main Flask application — routes and app logic
 ├── dbCode.py            # Database helper functions (MySQL connection + queries)
-├── creds_sample.py      # Sample credentials file (see Credential Setup below)
+├── creds.py      # Sample credentials file (see Credential Setup below)
 ├── templates/
 │   ├── home.html        # Landing page
-│   ├── [other].html     # Add descriptions for your other templates
+│   ├── add_country.html     # Add a country
+│   ├── delete_country.html     # Delete a country
+│   ├── update_country.html     # Update a country
+│   ├── display_countries.html     # Display all countries
+│   ├── countries_capitals.html     # View all countries and their capitals
+│   ├── favorites.html     # View a favorites list of countries
+│   ├── add_favorite.html     # Add a favorite country to the favorites list
+│   ├── delete_favorite.html     # Delete a favorite country from the favorites list
+├── .github/workflows/
+│   ├── deploy.yml        # Deploys to GitHub
 ├── .gitignore           # Excludes creds.py and other sensitive files
 └── README.md
 ```
@@ -43,7 +52,7 @@ ProjectOne/
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
+   git clone https://github.com/Jackless10/cs178-flask-app.git
    cd your-repo-name
    ```
 
@@ -97,14 +106,14 @@ db = "your-database-name"
 
 ### SQL (MySQL on RDS)
 
-<!-- Briefly describe your relational database schema. What tables do you have? What are the key relationships? -->
+The "world" database's main table is Country, with columns Code(PK), Name, Continent, and Population. 
 
-**Example:**
+- `[Country]` — stores statistics for 197 countries relating to geography, economics, and demographics; primary key is `[Code]`
+- `[Capital]` — stores the city ID; foreign key links to `[City]` table
+- `[Language]` — stores the names, status, and percentage of people who speak certain languages for different regions; foreign key links to the country code in the `[Country]` table
 
-- `[TableName]` — stores [description]; primary key is `[key]`
-- `[TableName]` — stores [description]; foreign key links to `[other table]`
-
-The JOIN query used in this project: <!-- describe it in plain English -->
+The JOIN query used in this project: 
+I joined the City table to the Country table on Country's Capital column and City's ID column.
 
 ### DynamoDB
 

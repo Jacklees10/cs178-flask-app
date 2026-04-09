@@ -9,11 +9,19 @@
         <h2 class="mt-5">Favorite Countries</h2>
         <table class="table table-bordered table-striped mt-3">
             <thead class="thead-dark">
-                <tr><th>Country Name</th></tr>
+                <tr>
+                    <th>Country Name</th>
+                    <th>Population</th>
+                    <th>Primary Language</th>
+                </tr>
             </thead>
             <tbody>
                 {% for item in favorites %}
-                <tr><td>{{ item['CountryName'] }}</td></tr>
+                <tr>
+                    <td>{{ item['CountryName'] }}</td>
+                    <td>{{ item['Population'] }}</td>
+                    <td>{{ item['Language'] }}</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>

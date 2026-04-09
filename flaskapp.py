@@ -1,6 +1,6 @@
-# author: T. Urness and M. Moore
+# author: Ben Jackels
 # description: Flask example using redirect, url_for, and flash
-# credit: the template html files were constructed with the help of ChatGPT
+# credit: the template html files were constructed with the help of Claude and ChatGPT
 
 from flask import Flask
 from flask import render_template
@@ -72,13 +72,13 @@ def display_countries():
 @app.route('/countries-with-capitals')
 def countries_with_capitals():
     rows = execute_query("""
-        SELECT country.Name, country.Continent, country.Population, city.Name AS CapitalCity
+        SELECT country.Name, city.Name AS CapitalCity
         FROM country
         JOIN city ON country.Capital = city.ID
         ORDER BY country.Population DESC
     """)
-    return render_template('display_countries.html', users=[
-        (r['Name'], r['Continent'], r['Population'], r['CapitalCity'])
+    return render_template('countries_capitals.html', users=[
+        (r['Name'], r['CapitalCity'])
         for r in rows
     ])
 
@@ -90,8 +90,12 @@ def favorites():
 @app.route('/add-favorite', methods=['GET', 'POST'])
 def add_favorite_route():
     if request.method == 'POST':
-        country_name = request.form['name']
-        add_favorite(country_name)
+        name = request.form['name']
+        population = request.form['population']
+        language = request.form['language']
+
+        add_favorite(name, population, language)
+
         flash('Country added to favorites!', 'success')
         return redirect(url_for('favorites'))
     else:
@@ -107,18 +111,6 @@ def delete_favorite_route():
     else:
         return render_template('delete_favorite.html')
     
-@app.route('/countries-with-capitals')
-def countries_with_capitals():
-    rows = execute_query("""
-        SELECT country.Name, city.Name AS CapitalCity
-        FROM country
-        JOIN city ON country.Capital = city.ID
-        ORDER BY country.Population DESC
-    """)
-    return render_template('countries_capitals.html', users=[
-        (r['Name'], r['CapitalCity'])
-        for r in rows
-    ])
 
 # these two lines of code should always be the last in the file
 if __name__ == '__main__':

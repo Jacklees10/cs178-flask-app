@@ -4,8 +4,16 @@
   <body>
     <h1>Add to Favorites</h1>
     <form action="{{ url_for('add_favorite_route') }}" method="post">
+      
       <label for="name">Country Name:</label><br />
-      <input type="text" id="name" name="name" required /><br />
+      <input type="text" id="name" name="name" required /><br /><br />
+      
+      <label for="population">Population:</label><br />
+      <input type="number" id="population" name="population" required /><br /><br />
+      
+      <label for="language">Primary Language:</label><br />
+      <input type="text" id="language" name="language" required /><br /><br />
+      
       <input type="submit" value="Add to Favorites" />
     </form>
   </body>

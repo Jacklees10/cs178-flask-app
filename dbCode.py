@@ -55,10 +55,16 @@ def get_dynamodb():
         print(f"Error connecting to DynamoDB: {e}")
         return None
 
-def add_favorite(country_name):
+def add_favorite(country_name, population, language):
     try:
         table = get_dynamodb()
-        table.put_item(Item={'CountryName': country_name})
+        table.put_item(
+            Item={
+                'CountryName': country_name,
+                'Population': int(population),
+                'Language': language
+            }
+        )
     except Exception as e:
         print(f"Error adding favorite: {e}")
 
